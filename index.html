@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>TablePlus Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="table-plus.js"></script> <!-- Ini wajib karena ini core js table plusnya -->
+  <link rel="stylesheet" href="table-plus.css"> <!-- >Ini wajib karena ini core css table plusnya, bisa di custom kalo jago style -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> <!-- >Ini wajib karena ada iconnya font awesome yang digunakan -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"> <!-- >Ini wajib karena table plus menggunakan tailwind -->
+</head>
+<body class="p-4">
+  <h1 class="text-2xl mb-4 font-bold">Demo TablePlus</h1>
+<!-- Ini struktur tablenya sesuaikan dengan css nya -->
+  <div id="notifContainer" class="w-full overflow-x-auto sm:overflow-visible">
+    <div class="inline-block min-w-full align-middle">
+      <div class="overflow-hidden border border-gray-200 rounded-lg">
+        <table id="notifTable" class="min-w-full border-collapse text-sm sm:text-base">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    const table = new TablePlus({ // Inisialisasi table plus nya bisa di balut di variable
+      url: 'data.json', //ini url nya, saya contohkan json yang sesuai yang bisa di kelola oleh table plus
+      columns: { //columns nya ini bang kalo gak ada column gak dapet
+        action: { //bagian ini adalah isi dari label jadi bebas mau diberikan nama apa, karena disini sya buat button jadi buatnya action
+          label: 'Aksi', //Ini label yang kita berikan di headernya
+          render: (row) => { //ini merender data serta html membawa row/ data sesuai yang diinginkan
+            return `
+              <button class="bg-blue-600 text-white px-2 py-1 rounded text-xs"
+                      onclick="alert('Edit ${row.nama}')">Edit</button>
+              <button class="bg-red-600 text-white px-2 py-1 rounded text-xs ml-1"
+                      onclick="alert('Hapus ${row.nama}')">Hapus</button>
+            `;
+          },
+          exportText: (row) => { //bagian exportText adalah fungsi untuk ketika kita export ke csv,excel, dan lainnya bukan html entitynya tapi nama Edit/delete
+            return 'Edit / Hapus';
+          }
+        },
+        username: {
+            label: 'NIK',
+            render: (row) => {
+              return `
+              <input type="text" name="nik" id="nik" class="form-control" value="${row.username}">
+              `
+          },exportText: (row) => row.username //Begitu juga dengan ini export text bukan html tapi usernamenya
+        },
+        nama: {
+          label: 'Nama',
+          isTitle: true //untuk bagian istitle ini digunakan untuk tampilan mobile karena tabelnya berubah jadi card
+        },
+        saldo_in: {
+          label: 'Transaksi IN',
+          render: (row) => {
+            return parseFloat(row.saldo_in).toLocaleString('id-ID')
+          }
+        },
+        saldo_out: {
+          label: 'Transaksi OUT',
+          render: (row) => {
+            return parseFloat(row.saldo_out).toLocaleString('id-ID')
+          }
+        },
+        balance: {
+          label: 'Balance',
+          render: (row) => {
+            return parseFloat(row.balance).toLocaleString('id-ID')
+          }
+        },
+        tgl_transaksi: 'Tanggal Transaksi'
+      },
+      perPage: 10, //ini mengatur bagian perpagenya
+      perPageOptions: [10, 20, 50, 100], //ini juga mengatur bagian page option mau berapa data per tampilan
+      rowIdentifier: 'id', //ini id atau uuid nya supaya datanya bisa di select kalo gak diberikan row identifier ini suka ngaco
+      customActions: [ //ini bagian custom action jadi ketika data di pilih di checkbox defaultnya hanya ada export selected dan clear section, jika ada tambahan button lain bisa disini
+        {
+          label: '✓ Tandai Dibaca', //tambahkan nama label buttonnya
+          className: 'bg-green-600 text-white px-3 py-1 rounded text-sm', //tambahkan class tailwindnya
+          onClick: (selectedIds) => { //contoh disini ketika di click menampilkan id yang dipilih
+            console.log('Selected IDs:', selectedIds); //bisa di custom kalo emang dibutuhkan seperti modal dan lainnya
+          }
+        },
+        {
+          label: 'Update',
+          className: 'bg-red-600 text-white px-3 py-1 rounded text-sm',
+          onClick: (selectedIds) => {
+            console.log('Update IDs:',selectedIds)
+          }
+        }
+      ],
+      onRowSelect: (selectedIds) => {//untuk fungsi on row select digunakan untuk menghitung total select data ada berapa data yang diselect
+        console.log('Total dipilih:', selectedIds.length);
+      },
+      savePreferences: true
+    })
+    table.render('#notifTable');//render tablenya
+  </script>
+</body>
+</html>

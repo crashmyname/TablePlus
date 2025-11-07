@@ -1,0 +1,104 @@
+{
+  "status": 200,
+  "message": "Data Found",
+  "data": {
+    "data": [
+      {
+        "id": 3368,
+        "nama": "FADLI AZKA P",
+        "username": "fervian",
+        "saldo_in": "0.00",
+        "saldo_out": "50000.00",
+        "balance": "5000000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3367,
+        "nama": "FADLI AZKA PRAYOGI",
+        "username": "azka",
+        "saldo_in": "0.00",
+        "saldo_out": "150000.00",
+        "balance": "150000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3366,
+        "nama": "STEVANI",
+        "username": "STEV",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3365,
+        "nama": "BILA SINTIA",
+        "username": "BILSIN",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3364,
+        "nama": "SUMANTO",
+        "username": "SUMANTO",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3363,
+        "nama": "SUPERIOR",
+        "username": "SUPER",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3362,
+        "nama": "VAN DER WICK",
+        "username": "DER",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3361,
+        "nama": "EGOY GOY",
+        "username": "EGOYY",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3360,
+        "nama": "ALEA ALAHEA",
+        "username": "ALEA",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 3359,
+        "nama": "CHRISTOPER",
+        "username": "CR",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      }
+    ],
+    "pagination": {
+      "total": 100,
+      "per_page": 10,
+      "current_page": 1,
+      "last_page": 10
+    }
+  }
+}
