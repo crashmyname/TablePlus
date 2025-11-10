@@ -187,7 +187,7 @@ class TablePlus {
     const params = new URLSearchParams({
       page: this.page,
       per_page: this.perPage,
-      search: this.searchTerm
+      search: this.searchTerm,
     });
 
     // Kirim filter dalam bentuk JSON agar backend bisa parse langsung
@@ -206,7 +206,7 @@ class TablePlus {
     try {
       const response = await fetch(`${this.url}?${params.toString()}`, {
         signal: this.abortController.signal,
-        cache: 'no-store'
+        cache: 'no-store',
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -218,7 +218,8 @@ class TablePlus {
         this.total = json.data.pagination.total;
         this.lastPage = json.data.pagination.last_page;
 
-        if (Object.keys(this.columnFilters).length === 0 && this.allData.length === 0) {
+        // simpan semua data saat pertama kali fetch (untuk dropdown filter)
+        if (!Array.isArray(this.allData) || this.allData.length === 0) {
           this.allData = [...this.data];
         }
       } else {
@@ -231,7 +232,7 @@ class TablePlus {
         console.log('Request cancelled');
         return;
       }
-      console.error("Fetch error:", e);
+      console.error('Fetch error:', e);
       this.data = [];
       this.total = 0;
       this.lastPage = 1;
@@ -463,39 +464,66 @@ class TablePlus {
     wrapper.appendChild(btn);
 
     const menu = document.createElement('div');
-    menu.className = 'absolute right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 w-48 hidden p-2';
+    menu.className =
+      'absolute right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 w-48 hidden p-2';
+    menu.style.minWidth = '150px';
+    menu.addEventListener('click', (e) => e.stopPropagation());
 
-    menu.addEventListener('click', e => e.stopPropagation());
-
-    // Input search di dropdown
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.placeholder = 'Cari...';
-    searchInput.className = 'w-full mb-2 border px-2 py-1 rounded text-sm focus:ring focus:ring-blue-200';
+    searchInput.className =
+      'w-full mb-2 border px-2 py-1 rounded text-sm focus:ring focus:ring-blue-200';
     menu.appendChild(searchInput);
 
     const list = document.createElement('div');
     list.className = 'max-h-40 overflow-y-auto';
     menu.appendChild(list);
 
+    this.filterElements = this.filterElements || {};
+    this.filterElements[columnKey] = { list, searchInput, menu };
+
+    // === Fungsi ambil nilai unik langsung dari server ===
+    const loadDistinctValues = async () => {
+      try {
+        const response = await fetch(`${this.url}?distinct=${columnKey}`, { cache: 'no-store' });
+        const json = await response.json();
+        if (json.status === 200 && Array.isArray(json.data)) {
+          console.log()
+          return json.data;
+        }
+        return [];
+      } catch (err) {
+        console.error('Gagal memuat distinct:', err);
+        return [];
+      }
+    };
+
+    // === Fungsi render opsi filter ===
     const renderOptions = (values) => {
       list.innerHTML = '';
-      values.forEach(val => {
+      values.forEach((val) => {
         const lbl = document.createElement('label');
-        lbl.className = 'flex items-center gap-2 px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer';
+        lbl.className =
+          'flex items-center gap-2 px-2 py-1 text-sm hover:bg-gray-100 rounded cursor-pointer';
+
         const cb = document.createElement('input');
         cb.type = 'checkbox';
         cb.checked = (this.columnFilters[columnKey] || []).includes(val);
+
         cb.onchange = () => {
           if (!this.columnFilters[columnKey]) this.columnFilters[columnKey] = [];
           if (cb.checked) {
             this.columnFilters[columnKey].push(val);
           } else {
-            this.columnFilters[columnKey] = this.columnFilters[columnKey].filter(v => v !== val);
+            this.columnFilters[columnKey] = this.columnFilters[columnKey].filter(
+              (v) => v !== val
+            );
           }
           this.page = 1;
           this.update();
         };
+
         const span = document.createElement('span');
         span.textContent = val || '(kosong)';
         lbl.append(cb, span);
@@ -503,29 +531,25 @@ class TablePlus {
       });
     };
 
-    const sourceData = this.allData && this.allData.length ? this.allData : this.data;
-    const uniqueVals = [...new Set(sourceData.map(d => d[columnKey]))].filter(v => v !== undefined);
-    renderOptions(uniqueVals);
+    let uniqueVals = []; // simpan hasil distinct global utk pencarian lokal
 
-    searchInput.oninput = e => {
-      const term = e.target.value.toLowerCase();
-      const filtered = uniqueVals.filter(v => String(v).toLowerCase().includes(term));
-      renderOptions(filtered);
-    };
-
-    btn.onclick = (e) => {
+    // === Tombol buka/tutup dropdown ===
+    btn.onclick = async (e) => {
       e.stopPropagation();
 
-      if (!menu.classList.contains('hidden')) {
+      const isOpen = !menu.classList.contains('hidden');
+      if (isOpen) {
         menu.classList.add('hidden');
-        if (document.body.contains(menu)) {
-          document.body.removeChild(menu);
-        }
+        if (document.body.contains(menu)) document.body.removeChild(menu);
         return;
       }
 
-      const rect = btn.getBoundingClientRect();
+      // 🔄 Ambil data distinct terbaru dari server
+      uniqueVals = await loadDistinctValues();
+      renderOptions(uniqueVals);
+      searchInput.value = '';
 
+      const rect = btn.getBoundingClientRect();
       menu.style.position = 'absolute';
       menu.style.top = `${rect.bottom + window.scrollY}px`;
       menu.style.left = `${rect.right - menu.offsetWidth + window.scrollX}px`;
@@ -537,20 +561,21 @@ class TablePlus {
       const closeHandler = (ev) => {
         if (!menu.contains(ev.target) && ev.target !== btn) {
           menu.classList.add('hidden');
-          if (document.body.contains(menu)) {
-            document.body.removeChild(menu);
-          }
+          if (document.body.contains(menu)) document.body.removeChild(menu);
           document.removeEventListener('click', closeHandler);
         }
       };
-
-      // Delay sedikit supaya klik tombol tidak langsung menutup menu
       setTimeout(() => document.addEventListener('click', closeHandler), 50);
     };
 
-    document.addEventListener('click', () => menu.classList.add('hidden'));
+    searchInput.oninput = (e) => {
+      const term = e.target.value.toLowerCase();
+      const filtered = uniqueVals.filter((v) =>
+        String(v ?? '').toLowerCase().includes(term)
+      );
+      renderOptions(filtered);
+    };
 
-    wrapper.appendChild(menu);
     return wrapper;
   }
 

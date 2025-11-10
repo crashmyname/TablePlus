@@ -19,7 +19,7 @@
         "saldo_in": "0.00",
         "saldo_out": "150000.00",
         "balance": "150000.00",
-        "tgl_transaksi": "2025-11-03"
+        "tgl_transaksi": "2025-10-03"
       },
       {
         "id": 3366,
@@ -28,7 +28,7 @@
         "saldo_in": "50000.00",
         "saldo_out": "50000.00",
         "balance": "100000.00",
-        "tgl_transaksi": "2025-11-03"
+        "tgl_transaksi": "2025-12-12"
       },
       {
         "id": 3365,
@@ -37,7 +37,7 @@
         "saldo_in": "50000.00",
         "saldo_out": "50000.00",
         "balance": "100000.00",
-        "tgl_transaksi": "2025-11-03"
+        "tgl_transaksi": "2025-09-13"
       },
       {
         "id": 3364,
@@ -64,7 +64,7 @@
         "saldo_in": "50000.00",
         "saldo_out": "50000.00",
         "balance": "100000.00",
-        "tgl_transaksi": "2025-11-03"
+        "tgl_transaksi": "2025-04-23"
       },
       {
         "id": 3361,
@@ -73,7 +73,7 @@
         "saldo_in": "50000.00",
         "saldo_out": "50000.00",
         "balance": "100000.00",
-        "tgl_transaksi": "2025-11-03"
+        "tgl_transaksi": "2025-06-11"
       },
       {
         "id": 3360,
@@ -92,13 +92,103 @@
         "saldo_out": "50000.00",
         "balance": "100000.00",
         "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 2368,
+        "nama": "YOWA",
+        "username": "YW",
+        "saldo_in": "0.00",
+        "saldo_out": "50000.00",
+        "balance": "5000000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 2367,
+        "nama": "KEN E DY",
+        "username": "KEN",
+        "saldo_in": "0.00",
+        "saldo_out": "150000.00",
+        "balance": "150000.00",
+        "tgl_transaksi": "2025-10-03"
+      },
+      {
+        "id": 2366,
+        "nama": "STEFEN S",
+        "username": "STEFS",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-12-12"
+      },
+      {
+        "id": 2365,
+        "nama": "BILA JAYA",
+        "username": "BILJAY",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-09-13"
+      },
+      {
+        "id": 2364,
+        "nama": "SAMSURI",
+        "username": "SAMSURI",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 2363,
+        "nama": "SUPABASE",
+        "username": "SUPABASE",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 2362,
+        "nama": "VAN DER WICKIPEDIA",
+        "username": "DER WC",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-04-23"
+      },
+      {
+        "id": 2361,
+        "nama": "EGOY YOGS",
+        "username": "EGOYY Y",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-06-11"
+      },
+      {
+        "id": 2360,
+        "nama": "ALEA NJAY",
+        "username": "ALEA N",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
+      },
+      {
+        "id": 2359,
+        "nama": "CHRISTOPER COLOMBUS",
+        "username": "CR COLOM",
+        "saldo_in": "50000.00",
+        "saldo_out": "50000.00",
+        "balance": "100000.00",
+        "tgl_transaksi": "2025-11-03"
       }
     ],
     "pagination": {
-      "total": 100,
+      "total": 20,
       "per_page": 10,
       "current_page": 1,
-      "last_page": 10
+      "last_page": 2
     }
   }
 }
